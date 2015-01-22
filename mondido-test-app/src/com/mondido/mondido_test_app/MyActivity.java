@@ -50,6 +50,7 @@ public class MyActivity extends Activity {
         paymentData.setCurrency("SEK");
         paymentData.setMerchantId("5");
         paymentData.setOrderId("test1");
+        paymentData.setCustomerRef("customer1");
         paymentData.setTest("true");
         paymentData.setOrderId(generateRandomOrderId());
         paymentData.setSuccessUrl("https://mondido.com/success");

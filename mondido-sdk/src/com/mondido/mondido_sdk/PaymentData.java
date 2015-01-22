@@ -16,6 +16,7 @@ public class PaymentData {
     private String currency;
     private String merchantId;
     private String orderId;
+    private String customerRef;
     private String hash;
     private String test;
     private String successUrl;
@@ -52,6 +53,14 @@ public class PaymentData {
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
+    }
+
+    public String getCustomerRef() {
+        return customerRef;
+    }
+
+    public void setCustomerRef(String customerRef) {
+        this.customerRef = customerRef;
     }
 
     public String getHash() {
@@ -95,7 +104,13 @@ public class PaymentData {
     public String createHash(String secret) {
         try {
             MessageDigest md5 = MessageDigest.getInstance("MD5");
-            String hashString = merchantId + orderId + amount + secret;
+            String hashString = merchantId
+                    + orderId
+                    + customerRef
+                    + amount
+                    + currency.toLowerCase()
+                    + ( test.equals("true") ? "test" : ""  )
+                    + secret;
             byte[] array = md5.digest(hashString.getBytes());
             StringBuilder sb = new StringBuilder();
             for (byte anArray : array) {
@@ -118,6 +133,8 @@ public class PaymentData {
         stringBuilder.append(URLEncoder.encode(currency, "UTF-8"));
         stringBuilder.append("&order_id=");
         stringBuilder.append(URLEncoder.encode(orderId, "UTF-8"));
+        stringBuilder.append("&customer_ref=");
+        stringBuilder.append(URLEncoder.encode(customerRef, "UTF-8"));
         stringBuilder.append("&hash=");
         stringBuilder.append(URLEncoder.encode(hash, "UTF-8"));
         stringBuilder.append("&success_url=");
